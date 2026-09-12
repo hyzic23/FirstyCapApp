@@ -1,12 +1,13 @@
 import { StyleSheet, View } from "react-native";
-import LoginScreen from "./components/LoginScreen";
+import RegisterScreen from "./components/RegisterScreen";
 
 export default function HomeScreen() {
   //const [name, setName] = useState("");
 
   return (
     <View style={styles.container}>
-      <LoginScreen />
+      <RegisterScreen />
+      {/* <LoginScreen /> */}
       {/* <Text style={styles.title}>What's your name?</Text>
 
       <TextInput
