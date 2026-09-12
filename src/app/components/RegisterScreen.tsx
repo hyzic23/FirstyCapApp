@@ -1,6 +1,7 @@
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { useState } from "react";
+import Input from "./Input";
 
 export default function RegisterScreen() {
   const [name, setName] = useState("");
@@ -42,8 +43,8 @@ export default function RegisterScreen() {
 
       <Text style={styles.label}>Name</Text>
 
-      <TextInput
-        style={styles.input}
+      <Input
+        //style={styles.input}
         placeholder="Enter your name"
         value={name}
         onChangeText={setName}
@@ -51,19 +52,19 @@ export default function RegisterScreen() {
 
       <Text style={styles.label}>Email</Text>
 
-      <TextInput
-        style={styles.input}
+      <Input
+        //style={styles.input}
         placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
+        //keyboardType="email-address"
+        //autoCapitalize="none"
       />
 
       <Text style={styles.label}>Password</Text>
 
-      <TextInput
-        style={styles.input}
+      <Input
+        //style={styles.input}
         placeholder="Enter your password"
         value={password}
         onChangeText={setPassword}
