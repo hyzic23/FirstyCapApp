@@ -17,20 +17,21 @@ export default function Product({ name, price }: ProductProps) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
-    padding: 20,
+    //width: 300,
+    padding: 15,
+    borderRadius: 10,
+    borderBottomColor: "#ddd",
     marginVertical: 10,
     borderWidth: 1,
-    borderRadius: 10,
   },
 
   name: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
 
   price: {
-    fontSize: 18,
+    fontSize: 16,
     marginTop: 5,
   },
 });
