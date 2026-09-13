@@ -1,38 +1,20 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import Product from "./components/Product";
+import { router } from "expo-router";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
-  const products = [
-    {
-      id: "1",
-      name: "iPhone",
-      price: 999,
-    },
-    {
-      id: "2",
-      name: "MacBook",
-      price: 1999,
-    },
-    {
-      id: "3",
-      name: "AirPods",
-      price: 249,
-    },
-  ];
-
   return (
     <View style={styles.container}>
-      <FlatList
-        data={products}
-        renderItem={({ item }) => (
-          <Product
-            name={item.name}
-            price={item.price}
-            onPress={() => console.log(item.name)}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={<Text style={styles.title}>Products.</Text>}
+      <Text style={styles.title}>Home Screen</Text>
+      <Button
+        title="View Products"
+        onPress={() => router.push("/components/Product")}
+      />
+
+      <View style={styles.spacing} />
+
+      <Button
+        title="View Profile"
+        onPress={() => router.push("/components/ProfileScreen")}
       />
     </View>
   );
@@ -47,7 +29,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
+    textAlign: "center",
+  },
+
+  spacing: {
+    height: 15,
   },
 
   product: {

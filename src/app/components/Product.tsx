@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text } from "react-native";
+import { router } from "expo-router";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 type ProductProps = {
   name: string;
@@ -6,23 +7,71 @@ type ProductProps = {
   onPress: () => void;
 };
 
-export default function Product({ name, price, onPress }: ProductProps) {
-  return (
-    <Pressable style={styles.container} onPress={onPress}>
-      <Text style={styles.name}>{name}</Text>
+const products = [
+  {
+    id: "1",
+    name: "iPhone",
+    price: 999,
+  },
+  {
+    id: "2",
+    name: "MacBook",
+    price: 1999,
+  },
+  {
+    id: "3",
+    name: "AirPods",
+    price: 249,
+  },
+];
 
-      <Text style={styles.price}>${price}</Text>
-    </Pressable>
+export default function ProductScreen({ name, price, onPress }: ProductProps) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Products</Text>
+
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Pressable
+            style={styles.product}
+            onPress={() =>
+              router.push({
+                pathname: "/components/product-details",
+                params: {
+                  id: item.id,
+                  name: item.name,
+                  price: item.price.toString(),
+                },
+              })
+            }
+          >
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.price}>${item.price}</Text>
+          </Pressable>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    padding: 20,
+  },
+
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+
+  product: {
     padding: 15,
-    borderRadius: 10,
+    borderBottomWidth: 1,
     borderBottomColor: "#ddd",
-    marginVertical: 10,
-    borderWidth: 1,
   },
 
   name: {
@@ -31,7 +80,7 @@ const styles = StyleSheet.create({
   },
 
   price: {
-    fontSize: 16,
     marginTop: 5,
+    fontSize: 16,
   },
 });
