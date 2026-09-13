@@ -1,23 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 type ProductProps = {
   name: string;
   price: number;
+  onPress: () => void;
 };
 
-export default function Product({ name, price }: ProductProps) {
+export default function Product({ name, price, onPress }: ProductProps) {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <Text style={styles.name}>{name}</Text>
 
       <Text style={styles.price}>${price}</Text>
-    </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    //width: 300,
     padding: 15,
     borderRadius: 10,
     borderBottomColor: "#ddd",

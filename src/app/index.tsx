@@ -1,4 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import Product from "./components/Product";
 
 export default function HomeScreen() {
   const products = [
@@ -26,18 +27,28 @@ export default function HomeScreen() {
       <FlatList
         data={products}
         renderItem={({ item }) => (
-          <View style={styles.product}>
-            <Text style={styles.name}>{item.name}</Text>
-
-            <Text style={styles.price}>${item.price}</Text>
-          </View>
+          <Product
+            name={item.name}
+            price={item.price}
+            onPress={() => console.log(item.name)}
+          />
         )}
         keyExtractor={(item) => item.id}
+        ListEmptyComponent={<Text>No products available.</Text>}
       />
 
-      {/* {products.map((product) => (
-        <Product key={product.id} name={product.name} price={product.price} />
-      ))} */}
+      {/* <FlatList
+        data={products}
+        renderItem={({ item }) => (
+          <Product
+            name={item.name}
+            price={item.price}
+            onPress={() => console.log(item.name)}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+        ListEmptyComponent={<Text>No Product(s) available</Text>}
+      /> */}
     </View>
   );
 }
