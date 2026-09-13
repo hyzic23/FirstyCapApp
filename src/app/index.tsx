@@ -22,8 +22,6 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Products</Text>
-
       <FlatList
         data={products}
         renderItem={({ item }) => (
@@ -34,21 +32,8 @@ export default function HomeScreen() {
           />
         )}
         keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text>No products available.</Text>}
+        ListHeaderComponent={<Text style={styles.title}>Products.</Text>}
       />
-
-      {/* <FlatList
-        data={products}
-        renderItem={({ item }) => (
-          <Product
-            name={item.name}
-            price={item.price}
-            onPress={() => console.log(item.name)}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text>No Product(s) available</Text>}
-      /> */}
     </View>
   );
 }
