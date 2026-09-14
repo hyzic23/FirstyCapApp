@@ -38,7 +38,7 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
             style={styles.product}
             onPress={() =>
               router.push({
-                pathname: "/components/product-details",
+                pathname: "/components/products/product-details",
                 params: {
                   id: item.id,
                   name: item.name,

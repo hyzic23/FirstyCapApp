@@ -7,14 +7,14 @@ export default function HomeScreen() {
       <Text style={styles.title}>Home Screen</Text>
       <Button
         title="View Products"
-        onPress={() => router.push("/components/Product")}
+        onPress={() => router.push("/components/products/Product")}
       />
 
       <View style={styles.spacing} />
 
       <Button
         title="View Profile"
-        onPress={() => router.push("/components/ProfileScreen")}
+        onPress={() => router.push("/components/products/ProfileScreen")}
       />
     </View>
   );
