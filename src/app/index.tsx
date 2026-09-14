@@ -1,20 +1,108 @@
-import { router } from "expo-router";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+    ActivityIndicator,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
+
+type Post = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
 
 export default function HomeScreen() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  // Get Posts
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts");
+      }
+
+      const data: Post[] = await response.json();
+      setPosts(data);
+    } catch (err) {
+      setError("Unable to load posts");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Create Post
+  const createPost = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: "My new post",
+            body: "This post was created from React Native",
+            userId: 1,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create post");
+      }
+
+      const createdPost = await response.json();
+
+      console.log("Created post:", createdPost);
+    } catch (err) {
+      console.log("Error creating post:", err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" />
+        <Text>Loading posts...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.error}>{error}</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
-      <Button
-        title="View Products"
-        onPress={() => router.push("/components/products/Product")}
-      />
-
-      <View style={styles.spacing} />
-
-      <Button
-        title="View Profile"
-        onPress={() => router.push("/components/products/ProfileScreen")}
+      <Text style={styles.title}>Posts</Text>
+      <FlatList
+        data={posts}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.post}>
+            <Text style={styles.postTitle}>{item.title}</Text>
+            <Text style={styles.postBody}>{item.body}</Text>
+          </View>
+        )}
       />
     </View>
   );
@@ -25,31 +113,35 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
   title: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 30,
-    textAlign: "center",
+    marginBottom: 20,
   },
-
-  spacing: {
-    height: 15,
-  },
-
-  product: {
+  post: {
     padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    marginBottom: 12,
+    borderRadius: 8,
+    backgroundColor: "#eeeeee",
   },
-
-  name: {
+  postTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    marginBottom: 8,
+    textTransform: "capitalize",
   },
-
-  price: {
+  postBody: {
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  error: {
+    color: "red",
     fontSize: 16,
-    marginTop: 5,
   },
 });
