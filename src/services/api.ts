@@ -15,11 +15,41 @@ const apiClient = async <T>(
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status}`);
+    throw new Error(`API request failed: ${response.status}`);
   }
 
   return response.json();
 };
 
-export const getPosts = () => {
+// Get Method
+export const getPosts = (): Promise<Post[]> => {
   return apiClient<Post[]>("/posts");
+};
+
+// Get Method using Id
+export const getPostById = (id: number): Promise<Post> => {
+  return apiClient<Post>(`/posts/${id}`);
+};
+
+// Create Method
+export const createPost = (post: Omit<Post, "id">): Promise<Post> => {
+  return apiClient<Post>("/posts", {
+    method: "POST",
+    body: JSON.stringify(post),
+  });
+};
+
+// UPDATE - Update an existing post
+export const updatePost = (id: number, post: Partial<Post>): Promise<Post> => {
+  return apiClient<Post>(`/posts/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(post),
+  });
+};
+
+// DELETE - Delete a post
+export const deletePost = (id: number): Promise<void> => {
+  return apiClient<void>(`/posts/${id}`, {
+    method: "DELETE",
+  });
 };
