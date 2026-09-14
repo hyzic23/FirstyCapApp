@@ -1,3 +1,4 @@
+import { getPosts } from "@/services/api";
 import { useEffect, useState } from "react";
 import {
     ActivityIndicator,
@@ -6,13 +7,7 @@ import {
     Text,
     View,
 } from "react-native";
-
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
+import { Post } from "../types/post";
 
 export default function HomeScreen() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -20,24 +15,14 @@ export default function HomeScreen() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchPosts();
+    loadPosts();
   }, []);
 
-  // Get Posts
-  const fetchPosts = async () => {
+  const loadPosts = async () => {
     try {
       setLoading(true);
       setError("");
-
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts",
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-
-      const data: Post[] = await response.json();
+      const data = await getPosts();
       setPosts(data);
     } catch (err) {
       setError("Unable to load posts");
@@ -46,33 +31,56 @@ export default function HomeScreen() {
     }
   };
 
+  // Get Posts
+  // const fetchPosts = async () => {
+  //   try {
+  //     setLoading(true);
+  //     setError("");
+
+  //     const response = await fetch(
+  //       "https://jsonplaceholder.typicode.com/posts",
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch posts");
+  //     }
+
+  //     const data: Post[] = await response.json();
+  //     setPosts(data);
+  //   } catch (err) {
+  //     setError("Unable to load posts");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   // Create Post
-  const createPost = async () => {
-    try {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: "My new post",
-            body: "This post was created from React Native",
-            userId: 1,
-          }),
-        },
-      );
+  // const createPost = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://jsonplaceholder.typicode.com/posts",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           title: "My new post",
+  //           body: "This post was created from React Native",
+  //           userId: 1,
+  //         }),
+  //       },
+  //     );
 
-      if (!response.ok) {
-        throw new Error("Failed to create post");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Failed to create post");
+  //     }
 
-      const createdPost = await response.json();
+  //     const createdPost = await response.json();
 
-      console.log("Created post:", createdPost);
-    } catch (err) {
-      console.log("Error creating post:", err);
-    }
-  };
+  //     console.log("Created post:", createdPost);
+  //   } catch (err) {
+  //     console.log("Error creating post:", err);
+  //   }
+  // };
 
   if (loading) {
     return (
