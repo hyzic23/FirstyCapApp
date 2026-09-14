@@ -2,11 +2,24 @@ import { Post } from "../types/post";
 
 const API_URL = "https://jsonplaceholder.typicode.com";
 
-export const getPosts = async (): Promise<Post[]> => {
-  const response = await fetch(`${API_URL}/posts`);
+const apiClient = async <T>(
+  endpoint: string,
+  options?: RequestInit,
+): Promise<T> => {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    ...options,
+  });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch posts");
+    throw new Error(`API request failed: ${response.status}`);
   }
+
   return response.json();
+};
+
+export const getPosts = () => {
+  return apiClient<Post[]>("/posts");
 };
