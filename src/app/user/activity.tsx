@@ -1,7 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function UserActivity() {
+  const handleLogout = async () => {
+    //setUser(null);
+    router.dismissAll();
+    router.replace("/login");
+  };
+
   return (
     <SafeAreaProvider style={styles.safeArea}>
       <View style={styles.container}>
@@ -52,6 +59,8 @@ export default function UserActivity() {
           <View style={styles.bottomAction}>
             <Text style={styles.buttonText}>View All Activities</Text>
           </View>
+
+          <Button title="Logout" onPress={handleLogout} />
         </View>
       </View>
     </SafeAreaProvider>

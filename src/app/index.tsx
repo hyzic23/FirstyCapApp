@@ -2,14 +2,6 @@ import { Redirect } from "expo-router";
 import { StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  const handleLogin = () => {
-    console.log("Login button pressed");
-  };
-
-  const handleRegister = () => {
-    console.log("Register button pressed");
-  };
-
   return <Redirect href="/login" />;
 }
 
