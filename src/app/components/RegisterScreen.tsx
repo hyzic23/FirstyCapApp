@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { useState } from "react";
-import Input from "./Input";
+import Input from "./common/Input";
 
 export default function RegisterScreen() {
   const [name, setName] = useState("");
