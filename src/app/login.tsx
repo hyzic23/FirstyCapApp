@@ -6,11 +6,16 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View,
 } from "react-native";
 import { mockAuthApi } from "../services/mockAuthApi";
 
-export default function LoginScreen() {
+type LoginScreenProps = {
+  onSwitchToSignup: () => void;
+};
+
+export default function LoginScreen({ onSwitchToSignup }: LoginScreenProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -66,16 +71,14 @@ export default function LoginScreen() {
         <Button title="Login" onPress={handleLogin} />
       )}
 
-      {/* {error !== "" && <Text style={styles.error}>{error}</Text>} */}
-
-      {/* <Pressable
-        style={styles.button}
-        onPress={() => {
-          handleLogin();
-        }}
+      <TouchableOpacity
+        onPress={() => router.push("/signup")}
+        style={{ marginTop: 15 }}
       >
-        <Text style={styles.buttonText}>Login</Text>
-      </Pressable> */}
+        <Text style={{ color: "#87bfff", textAlign: "center" }}>
+          Don't have an account? Sign up
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
