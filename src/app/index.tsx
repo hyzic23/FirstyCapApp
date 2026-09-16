@@ -1,21 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
-import Card from "./components/common/Card";
+import { Redirect } from "expo-router";
+import { StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Card>
-        <Text style={styles.label}>Total Users</Text>
-        <Text style={styles.number}>120</Text>
-      </Card>
-
-      <Card>
-        <Text style={styles.label}>Total Orders</Text>
-        <Text style={styles.number}>45</Text>
-      </Card>
-    </View>
-  );
-  // return <Redirect href="/login" />;
+  return <Redirect href="/login" />;
 }
 
 const styles = StyleSheet.create({

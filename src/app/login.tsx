@@ -31,7 +31,8 @@ export default function LoginScreen({ onSwitchToSignup }: LoginScreenProps) {
       //const request: LoginRequest = { email, password };
       const request = { email, password };
       const result = await mockAuthApi.login(request);
-      router.push("/user/activity");
+      router.push("/user-activity");
+      //router.push("/user/activity");
     } catch (err) {
       console.error("Login failed:", err);
       const message =
