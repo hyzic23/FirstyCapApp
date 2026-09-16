@@ -1,7 +1,14 @@
-import { LoginRequest, LoginResponse, login } from "@/services/api";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    ActivityIndicator,
+    Button,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+import { mockAuthApi } from "../services/mockAuthApi";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -16,16 +23,15 @@ export default function LoginScreen() {
     }
 
     try {
-      const request: LoginRequest = { email, password };
-      const response: LoginResponse = await login(request);
-      console.log("Login Successful");
-
-      // Store the token (localStorage, cookie, context, etc.)
-      //localStorage.setItem("token", response.token);
-      //await SecureStore.setItemAsync('access_token', response.token);
+      //const request: LoginRequest = { email, password };
+      const request = { email, password };
+      const result = await mockAuthApi.login(request);
       router.push("/user/activity");
     } catch (err) {
-      setError("Unable to call login api");
+      console.error("Login failed:", err);
+      const message =
+        (err as { message?: string })?.message ?? "Unable to call login api";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -53,16 +59,23 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      {error !== "" && <Text style={styles.error}>{error}</Text>}
+      {error && <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>}
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button title="Login" onPress={handleLogin} />
+      )}
 
-      <Pressable
+      {/* {error !== "" && <Text style={styles.error}>{error}</Text>} */}
+
+      {/* <Pressable
         style={styles.button}
         onPress={() => {
           handleLogin();
         }}
       >
         <Text style={styles.buttonText}>Login</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 }

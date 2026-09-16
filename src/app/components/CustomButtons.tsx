@@ -23,9 +23,17 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
 
+  secondaryButton: {
+    backgroundColor: "#E5E7EB",
+  },
+
   buttonText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
+  },
+
+  secondaryButtonText: {
+    color: "#1F2937",
   },
 });

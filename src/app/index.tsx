@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import CustomButton from "./components/CustomButtons";
+import { Redirect } from "expo-router";
+import { StyleSheet } from "react-native";
 
 export default function HomeScreen() {
   const handleLogin = () => {
@@ -10,15 +10,7 @@ export default function HomeScreen() {
     console.log("Register button pressed");
   };
 
-  return (
-    <View style={styles.container}>
-      <CustomButton title="Login" onPress={handleLogin} />
-      <CustomButton title="Register" onPress={handleRegister} />
-      <CustomButton title="Continue" onPress={handleLogin} />
-    </View>
-  );
-
-  // return <Redirect href="/login" />;
+  return <Redirect href="/login" />;
 }
 
 const styles = StyleSheet.create({
