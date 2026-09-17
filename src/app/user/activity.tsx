@@ -57,7 +57,14 @@ export default function UserActivity() {
 
           {/* Bottom Action */}
           <View style={styles.bottomAction}>
-            <Text style={styles.buttonText}>View All Activities</Text>
+            <Text
+              style={styles.buttonText}
+              onPress={() => {
+                router.push("/components/product/Product");
+              }}
+            >
+              View All Activities
+            </Text>
           </View>
 
           <Button title="Logout" onPress={handleLogout} />
