@@ -48,7 +48,7 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
   };
 
   const handleDelete = (id: number) => {
-    //setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setProducts((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   return (
@@ -72,7 +72,9 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
             <Text style={[styles.cell, styles.colName]} numberOfLines={1}>
               {item.name}
             </Text>
-            <Text style={[styles.cell, styles.colPrice]}>${item.price}</Text>
+            <Text style={[styles.cell, styles.colPrice]}>
+              ${item.price.toFixed(2)}
+            </Text>
             <View style={[styles.colActions, styles.actions]}>
               <TouchableOpacity
                 style={styles.iconButton}

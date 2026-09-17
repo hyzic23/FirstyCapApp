@@ -35,10 +35,18 @@ export const mockAuthApi = {
   //getProductsById
   getProductsById: async ({ id: number }) => {
     await delay();
-    const product = await MOCK_PRODUCTS.find((p) => p.id === id);
+    const product = MOCK_PRODUCTS.find((p) => p.id === id);
     if (!product) {
-      throw { status: 404, message: "No product found with this id" };
+      throw { status: 404, message: `No product found with this id ${id}` };
     }
-    return { product };
+    return product;
+  },
+
+  //deleteProduct
+  deleteProduct: async ({ id: number }) => {
+    await delay();
+    const product = await getProductsById(id);
+    MOCK_PRODUCTS = MOCK_PRODUCTS.filter((p) => p.id !== id);
+    return { product }; // returns the deleted item
   },
 };
