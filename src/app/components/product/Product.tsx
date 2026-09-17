@@ -53,39 +53,40 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
 
   return (
     <View style={styles.container}>
+      {/* <Text variant="headlineMedium" style={styles.title}> */}
       <Text style={styles.title}>Products</Text>
+
+      {/* Header row (outside the list) */}
+      <View style={styles.headerRow}>
+        <Text style={[styles.headerCell, styles.colName]}>Name</Text>
+        <Text style={[styles.headerCell, styles.colPrice]}>Price</Text>
+        <Text style={[styles.headerCell, styles.colActions]}>Actions</Text>
+      </View>
 
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => (
-          <View
-            style={styles.product}
-            // onPress={() =>
-            //   router.push({
-            //     pathname: "/components/product/product-details",
-            //     params: {
-            //       id: item.id,
-            //       name: item.name,
-            //       price: item.price.toString(),
-            //     },
-            //   })
-            // }
-          >
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>${item.price}</Text>
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() => handleEdit(item.id)}
-            >
-              <Ionicons name="pencil" size={20} color="#4A90E2" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() => handleDelete(item.id)}
-            >
-              <Ionicons name="trash" size={20} color="#E74C3C" />
-            </TouchableOpacity>
+          <View style={styles.row}>
+            <Text style={[styles.cell, styles.colName]} numberOfLines={1}>
+              {item.name}
+            </Text>
+            <Text style={[styles.cell, styles.colPrice]}>${item.price}</Text>
+            <View style={[styles.colActions, styles.actions]}>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() => handleEdit(item.id)}
+              >
+                <Ionicons name="pencil" size={20} color="#4A90E2" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() => handleDelete(item.id)}
+              >
+                <Ionicons name="trash" size={20} color="#E74C3C" />
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       />
@@ -94,60 +95,46 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
+  container: { flex: 1, padding: 16 },
 
-  sample: {
-    flex: 1,
-    justifyContent: "space-evenly",
-  },
+  title: { marginBottom: 16, fontWeight: "bold" },
 
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-
-  product: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-
-  price: {
-    marginTop: 5,
-    fontSize: 16,
-  },
-  itemContainer: {
+  // Header
+  headerRow: {
     flexDirection: "row",
-    backgroundColor: "#FFFFFF",
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 8,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: "#E0E0E0",
+    backgroundColor: "#FAFAFA",
+  },
+  headerCell: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#333",
+  },
+
+  // Rows
+  row: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    paddingVertical: 12,
   },
-  itemText: {
-    fontSize: 16,
-    color: "#333333",
-    flex: 1,
-  },
-  actionContainer: {
+  cell: { fontSize: 14, color: "#444" },
+  separator: { height: 1, backgroundColor: "#EEEEEE" },
+
+  // Column sizing (shared so header & rows align)
+  colName: { flex: 3 },
+  colPrice: { flex: 1, textAlign: "right" },
+  colActions: { flex: 1.2, textAlign: "right" },
+
+  // Action buttons
+  actions: {
     flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: 8,
   },
   iconButton: {
-    marginLeft: 16,
+    padding: 6,
   },
 });
