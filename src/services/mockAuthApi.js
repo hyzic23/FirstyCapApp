@@ -1,3 +1,4 @@
+import { MOCK_PRODUCTS } from "../mocks/product";
 import { MOCK_USERS } from "../mocks/user";
 
 // simulate network latency
@@ -23,5 +24,21 @@ export const mockAuthApi = {
       user: { id: user.id, email: user.email, name: user.name },
       token: `mock-jwt-token-${user.id}-${Date.now()}`,
     };
+  },
+
+  //getAllProducts
+  getAllProducts: async () => {
+    await delay();
+    return { products: MOCK_PRODUCTS };
+  },
+
+  //getProductsById
+  getProductsById: async ({ id: number }) => {
+    await delay();
+    const product = await MOCK_PRODUCTS.find((p) => p.id === id);
+    if (!product) {
+      throw { status: 404, message: "No product found with this id" };
+    }
+    return { product };
   },
 };
