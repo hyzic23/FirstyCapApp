@@ -3,6 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import {
     FlatList,
+    Modal,
+    Pressable,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -20,6 +22,7 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -78,7 +81,8 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
             <View style={[styles.colActions, styles.actions]}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => handleEdit(item.id)}
+                onPress={() => setIsModalVisible(true)}
+                // onPress={() => handleEdit(item.id)}
               >
                 <Ionicons name="pencil" size={20} color="#4A90E2" />
               </TouchableOpacity>
@@ -92,6 +96,31 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
           </View>
         )}
       />
+
+      {/* Create Modal Form */}
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View style={styles.overlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Welcome!</Text>
+
+            <Text style={styles.modalMessage}>
+              This is a modal in React Native Expo.
+            </Text>
+
+            <Pressable
+              style={styles.closeButton}
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text style={styles.buttonText}>Close Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -138,5 +167,47 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 6,
+  },
+
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 20,
+  },
+
+  modalContainer: {
+    width: "100%",
+    maxWidth: 400,
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    padding: 24,
+    alignItems: "center",
+  },
+
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 12,
+  },
+
+  modalMessage: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 24,
+  },
+
+  closeButton: {
+    backgroundColor: "#dc2626",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
   },
 });
