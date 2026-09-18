@@ -8,7 +8,17 @@ export default function RootLayout() {
         options={{ title: "Login", headerBackVisible: false }}
       />
 
+      <Stack.Screen
+        name="../app/user-activity"
+        options={{ title: "Dashboard" }}
+      />
+
       <Stack.Screen name="index" options={{ title: "Home" }} />
+
+      <Stack.Screen
+        name="components/product/Product"
+        options={{ title: "Products" }}
+      />
     </Stack>
   );
 }

@@ -3,14 +3,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import {
     FlatList,
-    Modal,
-    Pressable,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
 } from "react-native";
 import { mockAuthApi } from "../../../services/mockAuthApi";
+import EditProductModal from "./edit-product";
 
 type ProductProps = {
   name: string;
@@ -22,7 +21,8 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     loadProducts();
@@ -45,9 +45,15 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
     }
   };
 
-  const handleEdit = (id: number) => {
-    // Add your edit logic here
-    alert(`Edit item: ${id}`);
+  const handleEdit = (product: Product) => {
+    setSelectedProduct(product); // stores the clicked/selected product
+    setModalVisible(true); // opens modal
+  };
+
+  const handleSave = (updated: Product) => {
+    setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+    setModalVisible(false);
+    setSelectedProduct(null);
   };
 
   const handleDelete = (id: number) => {
@@ -56,7 +62,6 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
 
   return (
     <View style={styles.container}>
-      {/* <Text variant="headlineMedium" style={styles.title}> */}
       <Text style={styles.title}>Products</Text>
 
       {/* Header row (outside the list) */}
@@ -81,8 +86,7 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
             <View style={[styles.colActions, styles.actions]}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setIsModalVisible(true)}
-                // onPress={() => handleEdit(item.id)}
+                onPress={() => handleEdit(item)}
               >
                 <Ionicons name="pencil" size={20} color="#4A90E2" />
               </TouchableOpacity>
@@ -98,29 +102,15 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
       />
 
       {/* Create Modal Form */}
-      <Modal
-        visible={isModalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setIsModalVisible(false)}
-      >
-        <View style={styles.overlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Welcome!</Text>
-
-            <Text style={styles.modalMessage}>
-              This is a modal in React Native Expo.
-            </Text>
-
-            <Pressable
-              style={styles.closeButton}
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Text style={styles.buttonText}>Close Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      <EditProductModal
+        visible={modalVisible}
+        product={selectedProduct}
+        onClose={() => {
+          setModalVisible(false);
+          setSelectedProduct(null);
+        }}
+        onSave={handleSave}
+      />
     </View>
   );
 }
@@ -128,7 +118,11 @@ export default function ProductScreen({ name, price, onPress }: ProductProps) {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
 
-  title: { marginBottom: 16, fontWeight: "bold" },
+  title: {
+    marginBottom: 16,
+    fontWeight: "bold",
+    justifyContent: "center",
+  },
 
   // Header
   headerRow: {
