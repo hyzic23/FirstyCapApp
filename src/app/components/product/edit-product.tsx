@@ -29,13 +29,13 @@ export default function EditProductModal({
 }: Props) {
   const [id, setId] = useState(0);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("0");
 
   useEffect(() => {
     if (product) {
       setId(product.id);
       setName(product.name);
-      setPrice(product.price);
+      setPrice(product.price.toString());
     }
   }, [product]);
 
@@ -44,7 +44,7 @@ export default function EditProductModal({
     onSave({
       ...product,
       name,
-      price: parseFloat(price.toString()) || 0,
+      price: parseFloat(price) || 0,
     });
   };
 
@@ -67,8 +67,8 @@ export default function EditProductModal({
           />
           <TextInput
             style={styles.input}
-            value={price.toString()}
-            onChangeText={setPrice.toString}
+            value={price}
+            onChangeText={setPrice}
             placeholder="Price"
             keyboardType="numeric"
           />
